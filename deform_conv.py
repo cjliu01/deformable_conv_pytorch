@@ -3,9 +3,6 @@ import torch
 from torch import nn
 
 
-# https://github.com/4uiiurz1/pytorch-deform-conv-v2/blob/master/deform_conv_v2.py#L14
-# https://github.com/ChunhuanLin/deform_conv_pytorch
-
 class DeformConv2D(nn.Module):
     def __init__(self, inc, outc, kernel_size=3, stride=1, padding=1, bias=None, modulation=False):
         super(DeformConv2D, self).__init__()
