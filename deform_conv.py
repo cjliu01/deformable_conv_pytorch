@@ -1,4 +1,3 @@
-from torch.autograd import Variable
 import torch
 from torch import nn
 
@@ -32,10 +31,8 @@ class DeformConv2D(nn.Module):
         # Change offset's order from [x1, x2, ..., y1, y2, ...] to [x1, y1, x2, y2, ...]
         # Codes below are written to make sure same results of MXNet implementation.
         # You can remove them, and it won't influence the module's performance.
-        offsets_index = Variable(torch.cat([torch.arange(0, 2 * N, 2), torch.arange(1, 2 * N + 1, 2)]),
-                                 requires_grad=False).type_as(x).long()
-        offsets_index = offsets_index.unsqueeze(dim=0).unsqueeze(dim=-1).unsqueeze(dim=-1).expand(*offset.size())
-        # old_offset = offset.clone()
+        offsets_index = torch.cat([torch.arange(0, 2 * N, 2), torch.arange(1, 2 * N + 1, 2)]).long()
+        offsets_index = offsets_index[None, :, None, None].expand(*offset.size())
         offset = torch.gather(offset, dim=1, index=offsets_index)
         # ------------------------------------------------------------------------
 
