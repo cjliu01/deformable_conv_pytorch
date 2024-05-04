@@ -31,8 +31,8 @@ class DeformConv2D(nn.Module):
         # Change offset's order from [x1, x2, ..., y1, y2, ...] to [x1, y1, x2, y2, ...]
         # Codes below are written to make sure same results of MXNet implementation.
         # You can remove them, and it won't influence the module's performance.
-        offsets_index = torch.cat([torch.arange(0, 2 * N, 2), torch.arange(1, 2 * N + 1, 2)]).long()
-        # offsets_index = torch.stack([torch.arange(0, N, 1), torch.arange(N, 2 * N, 1)], dim=-1).flatten().long()
+        # offsets_index = torch.cat([torch.arange(0, 2 * N, 2), torch.arange(1, 2 * N + 1, 2)]).long()
+        offsets_index = torch.stack([torch.arange(0, N, 1), torch.arange(N, 2 * N, 1)], dim=-1).flatten().long()
         offsets_index = offsets_index[None, :, None, None].expand(*offset.size())
         offset = torch.gather(offset, dim=1, index=offsets_index)
         # ------------------------------------------------------------------------
